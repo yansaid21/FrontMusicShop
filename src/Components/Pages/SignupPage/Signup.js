@@ -1,11 +1,40 @@
 import React from "react";
 import "./Signup.scss";
-import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Checkbox from "@mui/material/Checkbox";
 import { Autocomplete, Button } from "@mui/material";
+import { useAuth } from "../../../hooks/useAuth";
+import { Auth } from '../../../api/auth';
+
+const authController = new Auth();
 
 const Signup = () => {
+  const { signup } = useAuth();
+  const [formData, setFormData] = useState({ firstname: "",lastname: "",email: "", password: "",document: "", documentType: "",});
+  const [error, setError] = useState("");
+
+  const handleInputChange = (field, value) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [field]: value,
+    }));
+  };
+
+  const onFinish = async () => {
+    console.log('Received values of form: ', formData);
+    try {
+      setError("");
+      const response = await authController.login(formData);
+      authController.setAccessToken(response.access);
+      login(response);
+      window.location.href = '/admin/';
+      console.log(response);
+    } catch (error) {
+      setError("Error en el servidor con validación de formato de evolución");
+    }
+  };
+
+
   const documentTypes = [
     { label: "CC" },
     { label: "passport" },
