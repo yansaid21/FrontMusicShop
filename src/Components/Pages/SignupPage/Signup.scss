@@ -1,0 +1,123 @@
+.SignUp {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  background-image: url("../../../assets/png/cool-background-login.png");
+  align-items: center;
+  justify-content: space-evenly;
+  color: white;
+  flex-direction: column;
+  & .SignUpContainer {
+    margin-bottom: 60px;
+    flex-wrap: nowrap;
+    display: flex;
+    align-items: stretch;
+    justify-content: space-evenly;
+    flex-direction: column;
+    width: 60%;
+    height: 80%;
+    background-color: rgba(27, 65, 76, 0.541);
+    padding: 50px;
+    border-radius: 40px;
+    @media screen and (max-width: 768px) {
+      padding: 20px;
+      width: 90%;
+      height: 100%;
+      margin: 20px 0;
+    }
+  }
+  & .SignUpTittle {
+    color: white;
+    font-weight: 900;
+    font-size: 50px;
+    margin-bottom: 20px;
+    @media screen and (max-width: 768px) {
+      font-weight: 700;
+      font-size: 40px;
+    }
+  }
+  & .names {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    @media screen and (max-width: 909px) {
+      flex-direction: column;
+    }
+    & .UserName {
+      width: 48%;
+      @media screen and (max-width: 909px) {
+        width: 100%;
+      }
+    }
+    & .UserLastname {
+      width: 48%;
+      @media screen and (max-width: 678px) {
+        margin-top: 10px;
+        width: 100%;
+      }
+    }
+  }
+  & .Emails {
+    margin: 10px 0 0 0 0;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    & .firstEmail {
+      margin: 10px 0;
+    }
+  }
+  & .documentAtributes {
+    width: 100%;
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    & .documentT {
+      width: 48%;
+      @media screen and (max-width: 678px) {
+        margin-top: 10px;
+        width: 100%;
+      }
+    }
+    & .documentText {
+      width: 48%;
+      @media screen and (max-width: 678px) {
+        margin-top: 10px;
+        width: 100%;
+      }
+    }
+  }
+  & .passwords {
+    width: 100%;
+    flex-direction: column;
+    & .userPassword {
+      width: 100%;
+      margin-top: 10px;
+    }
+  }
+  & .Check-Section {
+    align-items: center;
+    display: flex;
+    justify-content: flex-start;
+    color: white;
+    margin: 5px;
+    font-weight: 600;
+    a {
+      cursor: pointer;
+      color: white;
+    }
+  }
+  & .SignUpButton {
+    background-image: linear-gradient(
+      147deg,
+      rgb(42, 174, 201) 0%,
+      #717171 74%
+    );
+  }
+}
+.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
+  color: white;
+}

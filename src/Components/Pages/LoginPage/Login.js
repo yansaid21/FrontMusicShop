@@ -16,25 +16,30 @@ const Login = () => {
           required
           id="outlined-required"
           label="Email Address"
-          color="primary"
+          InputLabelProps={{ style: { color: "white" } }} 
+              InputProps={{ style: { color: "white" } }}
         />
         <TextField
-          className="UserPassword"
-          required
-          id="outlined-required"
+            className="UserPassword"
+          id="outlined-password-input"
           label="Password"
-          color="primary"
+          type="password"
+          autoComplete="current-password"
+          InputLabelProps={{ style: { color: "white" } }} 
+              InputProps={{ style: { color: "white" } }}
         />
         <div className="Check-Section">
-          <Checkbox />
-          Remember Me
-        </div>
+  <Checkbox
+    style={{ color: 'white' }} // Establece el color blanco para el icono del Checkbox
+  />
+  Remember Me
+</div>
         <Button className="LogInButton" variant="contained">
           Log In
         </Button>
         <div className=" LinksLogIn">
           <a href="#">Forgot password?</a>
-          <a href="#">Don't have an account? Sign Up</a>
+          <a href="signup">Don't have an account? Sign Up</a>
         </div>
       </div>
     </div>
