@@ -15,7 +15,7 @@ const Navbar = () => {
             <a href='#'>Musical Partners</a>
         </div>
         <div className='loginButton'>
-            <a href='#'>Log In</a>
+            <a href='login'>Log In</a>
         </div>
       
     </div>

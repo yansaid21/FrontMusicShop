@@ -1,0 +1,67 @@
+.LogIn{
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    background-image: url('../../../assets/png/cool-background-login.png');
+    align-items: center;
+    justify-content: space-evenly;
+    color: white;
+    flex-direction: column;
+    & .LogInContainer{
+        margin-bottom: 60px;
+        flex-wrap: nowrap;
+        display: flex;
+        align-items: stretch;
+        justify-content: space-evenly;
+        flex-direction: column;
+        width: 60%;
+        height: 80%;
+        background-color: rgba(40, 40, 40, 0.23);
+        padding: 50px;
+        border-radius: 40px;
+        @media screen and (max-width: 768px) {
+            padding: 20px;
+            width: 75%;
+          }
+    }
+    & .LogInTittle{
+        color: white;
+        font-weight: 900;
+        font-size: 50px;
+        @media screen and (max-width: 768px) {
+            font-weight: 700;
+            font-size: 40px;;
+          }
+    }
+    & .UserName{
+        color: white;
+        border-color: white;
+    }
+    & .UserPassword{
+        color: white;
+        border-color: white;
+    }
+    & .Check-Section{
+        align-items: center;
+        display: flex;
+        justify-content: flex-start;
+        color: white;
+        margin: 5px;
+        font-weight: 600;
+    }
+    & .LogInButton{
+        background-image: linear-gradient(147deg, rgb(42, 174, 201) 0%, #717171 74%);
+    }
+    & .LinksLogIn{
+        a{
+            color: white;
+        }
+        flex-wrap: wrap;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: small;
+    } 
+}
