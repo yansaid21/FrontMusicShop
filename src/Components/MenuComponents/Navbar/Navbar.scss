@@ -1,0 +1,51 @@
+.navbarContainer{
+    background-color: rgba(67, 67, 67, 0.532);
+    backdrop-filter: blur(4px);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 120px;
+
+    & .navIcon{
+        margin-left: 30px;
+        img{
+            height: 50px;
+            width: auto;
+            fill: white;
+        }
+            :hover{
+                cursor: pointer;
+                height: 80px 0.2s ease;
+                width: auto;
+        }
+    }
+    & .navSection{
+        a{
+            color: white;
+            margin: 0 20px 0 20px;
+            text-decoration: none;
+            transition: font-size 0.2s ease, font-weight 0.2s ease; 
+        }
+            :hover{
+                transition-duration: 0.2s ease;
+                font-size: larger;
+                font-weight: 700;
+            }
+    }
+    & .loginButton{
+        a{
+            color: white;
+            margin-right:30px ;
+            text-decoration: none;
+            transition: font-size 0.2s ease, font-weight 0.2s ease; 
+        }
+            :hover{
+                transition-duration: 0.2s ease;
+                font-size: larger;
+                font-weight: 700;
+            }
+    }
+}
