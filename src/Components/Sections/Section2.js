@@ -5,13 +5,12 @@ const Section2 = () => {
     <div className="section2Container">
       <div className="textContainer">
         <div className="textSection2">
-
-        ¡Explora la revolución musical en nuestra tienda online! Descubre
-        instrumentos vanguardistas y accesorios innovadores que llevarán tu
-        creatividad a nuevas alturas. Desde guitarras tecnológicas hasta efectos
-        únicos, cada producto ha sido seleccionado para inspirar. Sumérgete en
-        la innovación musical y eleva tu arte a un nivel sin precedentes.
-        ¡Bienvenido a la tienda donde la música encuentra su futuro!
+          "Explore the musical revolution in our online store! Discover
+          cutting-edge instruments and innovative accessories that will take
+          your creativity to new heights. From tech-infused guitars to unique
+          effects, each product has been carefully curated to inspire. Dive into
+          musical innovation and elevate your art to unprecedented levels.
+          Welcome to the store where music finds its future!"
         </div>
       </div>
     </div>
