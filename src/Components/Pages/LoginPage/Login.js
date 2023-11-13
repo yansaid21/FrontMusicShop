@@ -41,7 +41,7 @@ const Login = () => {
       const response = await authController.login(formData);
       console.log("response del login", response);
       if ( response.active === false) {
-        window.location.href = '/NonVerified';
+        window.location.href = '/nonVerified';
       }
       authController.setAccessToken(response.access);
       login(response);
