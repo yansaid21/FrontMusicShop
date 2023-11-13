@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import { AuthContext } from "../../../context";
 import "./Login.scss";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -10,6 +11,7 @@ import { Auth } from '../../../api/auth';
 const authController = new Auth();
 
 const Login = () => {
+  const { user } = useContext(AuthContext);
   const { login } = useAuth();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
@@ -21,15 +23,29 @@ const Login = () => {
     }));
   };
 
+  useEffect(() => {
+    // Este código se ejecuta cuando 'user' se actualiza
+    console.log("usuario después de ser seteado", user);
+
+    // Puedes colocar aquí el código que depende de 'user' actualizado
+    if (user && user.role === "Admin") {
+      window.location.href = '/admin/Home';
+    } else if (user && user.role === "Seller" && user.active === true) {
+      window.location.href = '/seller/Home';
+    }
+  }, [user]);
   const onFinish = async () => {
     console.log('Received values of form: ', formData);
     try {
       setError("");
       const response = await authController.login(formData);
+      console.log("response del login", response);
+      if ( response.active === false) {
+        window.location.href = '/NonVerified';
+      }
       authController.setAccessToken(response.access);
       login(response);
-      window.location.href = '/admin/';
-      console.log(response);
+      
     } catch (error) {
       setError("Error en el servidor con validación de formato de evolución");
     }

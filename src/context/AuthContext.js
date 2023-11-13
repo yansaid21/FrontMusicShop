@@ -15,6 +15,7 @@ export const AuthProvider = (props) => {
         //comprobar si el usuario está logueado o no
         const checkUserSession = async () => {
             const accessToken = authController.getAccessToken(); 
+            console.log("estoy en useeffect de authcontext",accessToken);
             //const refreshToken = getRefreshToken();
             console.log(
             `accessToken = ${accessToken}`
@@ -27,7 +28,7 @@ export const AuthProvider = (props) => {
     const login = async (accessToken) => {
         try {
             const response = await userController.getMe(accessToken);
-            console.log(response);
+            console.log("estoy en login de authContext",response);
             //delete response.new_password;
             // Ya se tienen los datos del usuario para utilizarlos en cualquier vista del frontend
             setUser(response);
