@@ -1,36 +1,45 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { AuthContext } from "../context";
-import { type } from "@testing-library/user-event/dist/type";
 import { Auth } from "../api/auth";
-import { useAuth } from "../hooks/useAuth";
 import { User } from "../api/user";
 
-export const ProtectedRoutes = ({ children,permission }) => {
-const userController = new User();
-const authController = new Auth();
-const [user, setUser] = useState(null);
+export const ProtectedRoutes = ({ children, permission }) => {
+  const userController = new User();
+  const authController = new Auth();
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-
-const checkUserSession = async () => {
-    const accessToken = await authController.getAccessToken();
-    //console.log("access token dentro de protectedRoutes",accessToken);
-    const response = await userController.getMeLater(accessToken);
-    console.log("response dentro del protectedUsers",response);
-    setUser(response);
-    console.log(`accessToken = ${accessToken}`);
-  };
-      checkUserSession();
   useEffect(() => {
-    if (!user) {
-        <Navigate to="login" />;
-    }
-  }, [user]);
-  console.log("type de permission", typeof(permission));
-  console.log("permission",permission);
+    const checkUserSession = async () => {
+      try {
+        const accessToken = await authController.getAccessToken();
+        const response = await userController.getMeLater(accessToken);
+        setUser(response);
+      } catch (error) {
+        console.error("Error al obtener la sesión del usuario", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  console.log("user en protectedRoutes", user);
-    if(user && user.role === permission){
-        return children ? children : <Outlet />;
-    }
+    checkUserSession();
+  }, []); // El segundo argumento [] asegura que el efecto se ejecute solo una vez, después del montaje.
+
+  if (loading) {
+    // Mientras se está cargando la sesión, podrías mostrar un indicador de carga.
+    return <div>Cargando...</div>;
+  }
+
+  if (!user) {
+    return <Navigate to="login" />;
+  }
+
+  if (user.role === permission) {
+    return children ? children : <Outlet />;
+  }
+
+  // Puedes agregar un manejo adicional si el usuario no tiene los permisos necesarios.
+  console.error("El usuario no tiene los permisos necesarios");
+  return <Navigate to="unauthorized" />;
 };
+    

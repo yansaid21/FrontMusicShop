@@ -27,7 +27,7 @@ const Login = () => {
     if (user && user.role === "admin") {
       //window.location.href = '/login';
       window.open('/admin/home', '_blank');
-    } else if (user && user.role === "seller" && user.active === true) {
+    } else if (user && user.role === "user" && user.active === true) {
       window.location.href = '/seller/home';
     }
   }, [user]);
@@ -38,7 +38,9 @@ const Login = () => {
       const response = await authController.login(formData);
       //console.log("response del login", response);
       if ( response.active === false) {
-        window.location.href = '/nonVerified';
+      window.open('/nonVerified', '_blank');
+        
+        //window.location.href = '/nonVerified';
       }
       authController.setAccessToken(response.access);
       console.log("response.access del login",response.access);

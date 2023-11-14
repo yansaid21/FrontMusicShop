@@ -1,4 +1,5 @@
 import AdminLayout from "../Components/Layouts/AdminLayout/AdminLayout";
+import SellerLayout from "../Components/Layouts/SellerLayout/SellerLayout";
 import AdminHome from "../Components/Pages/Admin/AdminHome/AdminHome";
 import Home from "../Components/Pages/Home/Home";
 import Login from "../Components/Pages/LoginPage/Login";
@@ -13,7 +14,7 @@ const AdminRoutes = [
 ];
 
 const SellerRoutes = [
-    { path: '/seller/home', component: SellerHome}
+    { path: '/seller/home', component: SellerHome, layout: SellerLayout}
 ];
 
 const GeneralRoutes = [
