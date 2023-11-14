@@ -24,26 +24,30 @@ export const AuthProvider = (props) => {
 
   const login = async (accessToken) => {
     try {
+        console.log("tipo accesstoken dentro de login de context ->", typeof(accessToken));
+        console.log("accesstoken dentro de login de context ->", accessToken);
+
       const response = await userController.getMe(accessToken);
       //delete response.new_password;
       // Ya se tienen los datos del usuario para utilizarlos en cualquier vista del frontend
       setUser(response);
       console.log("user después de setearse",user);
       setToken(accessToken);
+
       console.log("token", accessToken);
     } catch (error) {
-      console.log(error);
+        console.log(error);
     }
-  };
-  
+};
 
-  const data = {
+
+const data = {
     accessToken: token,
     user,
     login,
-  };
-  console.log("user sacado del data: ",data.user);
-  console.log("user después de setearse",user);
+};
+console.log("user sacado del data: ",data.user);
+console.log("user después de setearse",user);
 
 
   return <AuthContext.Provider value={data}>{children}</AuthContext.Provider>;

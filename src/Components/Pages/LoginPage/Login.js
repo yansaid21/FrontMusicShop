@@ -25,6 +25,7 @@ const Login = () => {
   useEffect(() => {
     //console.log("usuario después de ser seteado", user);
     if (user && user.role === "admin") {
+      //window.location.href = '/login';
       window.open('/admin/home', '_blank');
     } else if (user && user.role === "seller" && user.active === true) {
       window.location.href = '/seller/home';
@@ -40,6 +41,7 @@ const Login = () => {
         window.location.href = '/nonVerified';
       }
       authController.setAccessToken(response.access);
+      console.log("response.access del login",response.access);
       login(response);
       
     } catch (error) {
@@ -71,10 +73,6 @@ const Login = () => {
           InputProps={{ style: { color: "white" } }}
           onChange={(e) => handleInputChange("password", e.target.value)}
         />
-        <div className="Check-Section">
-          <Checkbox style={{ color: 'white' }} />
-          Remember Me
-        </div>
         <Button className="LogInButton" variant="contained" onClick={onFinish}>
           Log In
         </Button>
