@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../../context";
 import "./Login.scss";
-import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Checkbox from "@mui/material/Checkbox";
 import { Button } from "@mui/material";
@@ -24,22 +23,19 @@ const Login = () => {
   };
 
   useEffect(() => {
-    // Este código se ejecuta cuando 'user' se actualiza
-    console.log("usuario después de ser seteado", user);
-
-    // Puedes colocar aquí el código que depende de 'user' actualizado
-    if (user && user.role === "Admin") {
-      window.location.href = '/admin/Home';
-    } else if (user && user.role === "Seller" && user.active === true) {
-      window.location.href = '/seller/Home';
+    //console.log("usuario después de ser seteado", user);
+    if (user && user.role === "admin") {
+      window.open('/admin/home', '_blank');
+    } else if (user && user.role === "seller" && user.active === true) {
+      window.location.href = '/seller/home';
     }
   }, [user]);
   const onFinish = async () => {
-    console.log('Received values of form: ', formData);
+    //console.log('Received values of form: ', formData);
     try {
       setError("");
       const response = await authController.login(formData);
-      console.log("response del login", response);
+      //console.log("response del login", response);
       if ( response.active === false) {
         window.location.href = '/nonVerified';
       }

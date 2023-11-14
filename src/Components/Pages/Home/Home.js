@@ -4,7 +4,7 @@ import "./Home.scss"
 import Section1 from '../../Sections/section1'
 import Section2 from '../../Sections/Section2'
 import Section3 from '../../Sections/Section3'
-import Footer from '../../MenuComponents/Footer/Footer'
+import GeneralFooter from '../../MenuComponents/GeneralFooter/GeneralFooter'
 
 const Home = () => {
   return (
@@ -15,7 +15,7 @@ const Home = () => {
       <Section2/>
       <Section3/>
       </div>
-      <Footer/>
+      <GeneralFooter/>
     </div>
   )
 }

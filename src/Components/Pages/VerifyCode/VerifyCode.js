@@ -12,7 +12,7 @@ const VerifyCode = () => {
             <p>
                 <h3>Just left One step!</h3>
             </p>
-            <p>Please <strong>check</strong> your Email to <strong>verify</strong> your account</p>
+            <p>We will <strong>check</strong> your <strong>register</strong> to activate your account</p>
         </div>
       </div>
     </div>

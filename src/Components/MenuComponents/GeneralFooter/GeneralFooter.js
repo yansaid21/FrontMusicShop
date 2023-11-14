@@ -1,8 +1,8 @@
 import React from 'react'
-import "./Footer.scss"
+import "./GeneralFooter.scss"
 import musicLogo from "../../../assets/svg/music-play-svgrepo-com.svg";
 
-const Footer = () => {
+const GeneralFooter = () => {
   return (
     <div className='Footer'>
         <div className='Ubication'>
@@ -43,4 +43,4 @@ const Footer = () => {
   )
 }
 
-export default Footer
+export default GeneralFooter

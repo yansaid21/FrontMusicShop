@@ -12,7 +12,7 @@ const NonVerified = () => {
             <p>
                 It seems that you are currently not verified
             </p>
-            <p>Please <strong>check</strong> your Email to <strong>verify</strong> your account</p>
+            <p>Please <strong>be patient</strong>, your Email will be <strong>verify</strong> soon as possible</p>
         </div>
       </div>
     </div>

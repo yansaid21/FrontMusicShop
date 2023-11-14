@@ -43,14 +43,14 @@ export class Auth {
                 "Content-Type": "application/json",
             },
         };
-        console.log(params);
+//console.log(params);
         try{
             const response = await fetch(url, params);
             if (!response.ok){
                 throw new Error("Error en la solicitud: " + response.status);
             }
             const result = await response.json();
-            console.log("retorno el json en auto login", result);
+            //console.log("retorno el json en auto login", result);
             return result;
         } catch (error) {
             console.error(error);
