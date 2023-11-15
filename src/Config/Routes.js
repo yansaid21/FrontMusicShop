@@ -5,7 +5,7 @@ import Home from "../Components/Pages/Home/Home";
 import Login from "../Components/Pages/LoginPage/Login";
 import NonVerified from "../Components/Pages/NonVerified/NonVerified";
 import PrivacyPolicy from "../Components/Pages/PrivacyPolicyPage/PrivacyPolicyPage";
-import SellerHome from "../Components/Pages/SellerHome/SellerHome";
+import SellerHome from "../Components/Pages/Seller/SellerHome/SellerHome";
 import Signup from "../Components/Pages/SignupPage/Signup";
 import VerifyCode from "../Components/Pages/VerifyCode/VerifyCode";
 

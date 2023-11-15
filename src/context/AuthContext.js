@@ -5,7 +5,6 @@ import { User } from "../api/user";
 export const AuthContext = createContext();
 const userController = new User();
 const authController = new Auth();
-
 export const AuthProvider = (props) => {
   const { children } = props;
   const [user, setUser] = useState(null);
@@ -15,9 +14,16 @@ export const AuthProvider = (props) => {
     //comprobar si el usuario está logueado o no
     const checkUserSession = async () => {
       const accessToken = authController.getAccessToken();
-      //const refreshToken = getRefreshToken();
-      console.log(`accessToken = ${accessToken}`);
-      //\nrefreshToken = ${refreshToken}
+      if (accessToken) {
+        try {
+          const response = await userController.getMe(accessToken);
+          setUser(response);
+          setToken(accessToken);
+        } catch (error) {
+          // Si hay algún error al recuperar la información del usuario, realiza el logout
+/*           logout(); */
+        }
+      }
     };
     checkUserSession();
   }, [user]);
@@ -39,12 +45,24 @@ export const AuthProvider = (props) => {
         console.log(error);
     }
 };
+const logout = () => {
+    // Limpiar el estado
+    setUser(null);
+    setToken(null);
 
+    // Limpiar el localStorage
+    authController.clearAccessToken(); // Asegúrate de tener esta función en tu AuthController
+
+    // Otros pasos que puedas necesitar para limpiar la caché u otros datos
+
+    console.log("Usuario desconectado");
+  };
 
 const data = {
     accessToken: token,
     user,
     login,
+    logout,
 };
 console.log("user sacado del data: ",data.user);
 console.log("user después de setearse",user);

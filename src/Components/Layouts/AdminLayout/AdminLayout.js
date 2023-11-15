@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
+import "./AdminLayout.scss"
 import {
   DesktopOutlined,
-  FileOutlined,
+  LogoutOutlined ,
   PieChartOutlined,
   TeamOutlined,
   UserOutlined,
@@ -10,20 +11,24 @@ import { Breadcrumb, Layout, Menu, theme } from "antd";
 import GeneralFooter from "../../MenuComponents/GeneralFooter/GeneralFooter";
 import { Auth, GetSellers } from "../../../api";
 import GeneralTable from "../../GeneralTable/GeneralTable";
+import { useAuth } from "../../../hooks/useAuth";
 const { Header, Content, Sider } = Layout;
 const authController = new Auth();
 
 function getItem(label, key, icon, children, onClick) {
-  return {
-    key,
-    icon,
-    children,
-    label,
-    onClick,
-  };
+    return {
+        key,
+        icon,
+        children,
+        label,
+        onClick,
+    };
 }
 
 const AdminLayout = (props) => {
+    const {logout}= useAuth()
+
+
   const [showTable, setShowTable] = useState(false);
   const [token, setToken] = useState(null);
   useEffect(() => {
@@ -44,10 +49,15 @@ const AdminLayout = (props) => {
       fetchData();
     }
   }, [token]);
+const handleFilesClick = () => {
+    console.log("di click");
+    logout()
+    window.location.href="/login"
+    // Puedes agregar aquí cualquier lógica adicional que desees ejecutar al hacer clic en "Files"
+  };
+/*   console.log("sellers ", data); */
 
-  console.log("sellers ", data);
-
-  const items = [
+const items = [
     getItem("Option 1", "1", <PieChartOutlined />),
     getItem("Option 2", "2", <DesktopOutlined />),
     getItem("Users", "3", <UserOutlined />, null, () => setShowTable(true)),
@@ -55,7 +65,7 @@ const AdminLayout = (props) => {
       getItem("Team 1", "6"),
       getItem("Team 2", "8"),
     ]),
-    getItem("Files", "9", <FileOutlined />),
+    getItem("Log Out", "9", <LogoutOutlined />, null, handleFilesClick),
   ];
 
   const { children } = props;
@@ -111,7 +121,7 @@ const AdminLayout = (props) => {
           </div>
         </Content>
 
-        <GeneralFooter />
+        <GeneralFooter classname="adminFooter"/>
       </Layout>
     </Layout>
   );

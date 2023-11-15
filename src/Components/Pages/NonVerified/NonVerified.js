@@ -10,9 +10,9 @@ const NonVerified = () => {
               UPS  
             </h1>
             <p>
-                It seems that you are currently not verified
+                It seems that you are currently not verified or your password is incorrect
             </p>
-            <p>Please <strong>be patient</strong>, your Email will be <strong>verify</strong> soon as possible</p>
+            <p>Please <strong>check it</strong>, or contact us to <strong>verify it</strong> soon as possible</p>
         </div>
       </div>
     </div>

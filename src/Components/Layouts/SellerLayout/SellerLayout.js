@@ -1,34 +1,62 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
+import "./SellerLayout.scss"
 import {
   DesktopOutlined,
-  FileOutlined,
+  LogoutOutlined ,
   PieChartOutlined,
-  TeamOutlined,
+ CustomerServiceOutlined,
   UserOutlined,
-} from '@ant-design/icons';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
-const { Header, Content, Footer, Sider } = Layout;
-function getItem(label, key, icon, children) {
-  return {
-    key,
-    icon,
-    children,
-    label,
-  };
+} from "@ant-design/icons";
+import { Breadcrumb, Layout, Menu, theme } from "antd";
+import GeneralFooter from "../../MenuComponents/GeneralFooter/GeneralFooter";
+import { Auth, GetSellers } from "../../../api";
+import GeneralTable from "../../GeneralTable/GeneralTable";
+import { useAuth } from "../../../hooks/useAuth";
+const { Header, Content,Footer, Sider } = Layout;
+const authController = new Auth();
+
+function getItem(label, key, icon, children, onClick) {
+    return {
+        key,
+        icon,
+        children,
+        label,
+        onClick,
+    };
 }
-const items = [
-  getItem('Option 1', '1', <PieChartOutlined />),
-  getItem('Option 2', '2', <DesktopOutlined />),
-  getItem('User', 'sub1', <UserOutlined />, [
-    getItem('Tom', '3'),
-    getItem('Bill', '4'),
-    getItem('Alex', '5'),
-  ]),
-  getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
-  getItem('Files', '9', <FileOutlined />),
-];
+
 const SellerLayout = (props) => {
-    const {children} = props
+    const {logout}= useAuth()
+  const [token, setToken] = useState(null);
+  useEffect(() => {
+    const checkUserSession = async () => {
+      try {
+        const accessToken = await authController.getAccessToken();
+        setToken(accessToken);
+      } catch (error) {
+        console.error("Error al obtener la sesión del usuario", error);
+      }
+    };
+    checkUserSession();
+  }, []);
+
+const handleLogOutClick = () => {
+    console.log("di click");
+    logout()
+    window.location.href="/login"
+  };
+
+const items = [
+    getItem("Option 1", "1", <PieChartOutlined />),
+    getItem("Option 2", "2", <DesktopOutlined />),
+    getItem("Products", "sub2", <CustomerServiceOutlined />, [
+      getItem("instrumets", "6"),
+      getItem("others", "8"),
+    ]),
+    getItem("Log Out", "9", <LogoutOutlined />, null, handleLogOutClick),
+  ];
+
+  const { children } = props;
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
@@ -36,12 +64,22 @@ const SellerLayout = (props) => {
   return (
     <Layout
       style={{
-        minHeight: '100vh',
+        minHeight: "100vh",
       }}
     >
-      <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+      <Sider
+        collapsible
+        collapsed={collapsed}
+        onCollapse={(value) => setCollapsed(value)}
+        className="customSider"
+      >
         <div className="demo-logo-vertical" />
-        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
+        <Menu
+          theme="dark"
+          defaultSelectedKeys={["1"]}
+          mode="inline"
+          items={items}
+        />
       </Sider>
       <Layout>
         <Header
@@ -52,17 +90,14 @@ const SellerLayout = (props) => {
         />
         <Content
           style={{
-            margin: '0 16px',
+            margin: "0 16px",
           }}
         >
           <Breadcrumb
             style={{
-              margin: '16px 0',
+              margin: "16px 0",
             }}
-          >
-            <Breadcrumb.Item>User</Breadcrumb.Item>
-            <Breadcrumb.Item>Bill</Breadcrumb.Item>
-          </Breadcrumb>
+          ></Breadcrumb>
           <div
             style={{
               padding: 24,
@@ -73,13 +108,7 @@ const SellerLayout = (props) => {
             {children}
           </div>
         </Content>
-        <Footer
-          style={{
-            textAlign: 'center',
-          }}
-        >
-          Ant Design ©2023 Created by Ant UED
-        </Footer>
+            <Footer style={{ textAlign: 'center' }}> Music Shop ©2023 Created by JEAN SAID ARIAS</Footer>
       </Layout>
     </Layout>
   );
