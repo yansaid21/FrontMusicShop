@@ -49,4 +49,47 @@ export class User {
       throw error;
     }
   }
+  async deactivateUser(accessToken, _id) {
+    const accessTokenString = accessToken;
+  
+    try {
+      const response = await axios.patch(
+        `${ENV.BASE_PATH}/USER/${_id}`,
+        { active: false }, // Agregar el cuerpo que deseas enviar en el patch
+        {
+          headers: {
+            "Content-Type": CONTENT_TYPE_JSON,
+            Authorization: `Bearer ${accessTokenString}`,
+          },
+        }
+      );
+  
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+  async activateUser(accessToken,_id) {
+    const accessTokenString = accessToken;
+  
+    try {
+      const response = await axios.patch(
+        `${ENV.BASE_PATH}/USER/${_id}`,
+        { active: true }, // Agregar el cuerpo que deseas enviar en el patch
+        {
+          headers: {
+            "Content-Type": CONTENT_TYPE_JSON,
+            Authorization: `Bearer ${accessTokenString}`,
+          },
+        }
+      );
+  
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+    
 }

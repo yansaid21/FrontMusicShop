@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { Auth } from "../api/auth";
 import { User } from "../api/user";
+import Loader from "../Components/Loader/Loader";
 
 export const ProtectedRoutes = ({ children, permission }) => {
   const userController = new User();
@@ -27,11 +28,11 @@ export const ProtectedRoutes = ({ children, permission }) => {
 
   if (loading) {
     // Mientras se está cargando la sesión, podrías mostrar un indicador de carga.
-    return <div>Cargando...</div>;
+    return <Loader/>;
   }
 
   if (!user) {
-    return <Navigate to="login" />;
+    return <Navigate to="/login" />;
   }
 
   if (user.role === permission) {

@@ -25,8 +25,8 @@ const Login = () => {
   useEffect(() => {
     //console.log("usuario después de ser seteado", user);
     if (user && user.role === "admin") {
-      //window.location.href = '/login';
-      window.open('/admin/home', '_blank');
+      window.location.href = '/admin/home';
+      //window.open('/admin/home', '_blank');
     } else if (user && user.role === "user" && user.active === true) {
       window.location.href = '/seller/home';
     }
@@ -40,7 +40,7 @@ const Login = () => {
       if ( response.active === false) {
       window.open('/nonVerified', '_blank');
         
-        //window.location.href = '/nonVerified';
+      //  window.location.href = '/nonVerified';
       }
       authController.setAccessToken(response.access);
       console.log("response.access del login",response.access);
