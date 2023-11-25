@@ -1,16 +1,25 @@
 .homeContainer{
     background-image: url('../../../assets/png/cool-background.png');
+    .grad{
+        display: block;
+            height: 300px;
+            width: 100%;
+            background: linear-gradient(rgba(9, 68, 84, 0.541), rgba(255, 255, 255, 0));
+            backdrop-filter: blur(4px);
+            position: absolute;
+            z-index: 1;
+        }
     height: 100%;
     width: 100%;
     z-index: -1;
     & .sectionsContainer{
-        margin-top: 30px;
+        position: relative;
+        z-index: 10;
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
         @media screen and (max-width: 768px) {
-            margin-top: 150px;
           }
     }
 }

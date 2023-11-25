@@ -6,31 +6,31 @@ import { ENV } from '../utils/constants';
 
 const CONTENT_TYPE_JSON = "application/json";
 
-export const GetSellers = (token) => {
-  const [data, setData] = useState([]);
+export const GetItems = (token) => {
+  const [itemsdata, setItemsData] = useState([]);
 
   useEffect(() => {
-    fetchData();
+    fetchItemsData();
   }, [token]);
 
-    const fetchData = async () => {
+    const fetchItemsData = async () => {
       try {
         if (!token) {
           console.error("Token is null");
           return;
         }
     
-        const response = await axios.get(`${ENV.BASE_PATH}/${ENV.API_ROUTES.SELLERS}`, {
+        const response = await axios.get(`${ENV.BASE_PATH}/${ENV.API_ROUTES.ITEMS}`, {
           headers: {
             "Content-Type": CONTENT_TYPE_JSON,
             Authorization: `Bearer ${token}`,
           },
         });
-        setData(response.data);
+        setItemsData(response.data);
       } catch (error) {
         console.error(error);
       }
     };    
 
-  return { data, fetchData };
+  return { itemsdata, fetchItemsData };
 };

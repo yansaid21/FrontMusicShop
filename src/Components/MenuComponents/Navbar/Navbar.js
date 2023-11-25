@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import GuitarIcon from "../../../assets/svg/music-play-svgrepo-com.svg"
+import MusicLogo from "../../../assets/svg/music-play-svgrepo-com.svg"
 import "./Navbar.scss"
 import { AuthContext } from '../../../context';
 const Navbar = () => {
@@ -8,7 +8,7 @@ const Navbar = () => {
     <div className='navbarContainer'>
         <div className='navIcon'>
             <a href='/'>
-            <img src={GuitarIcon} alt='Logo'/>
+            <img src={MusicLogo} alt='Logo'/>
             </a>
         </div>
         <div className='navSection'>

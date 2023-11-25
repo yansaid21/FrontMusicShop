@@ -1,35 +1,40 @@
 import React, { useEffect, useState } from "react";
-import "./AdminLayout.scss"
+import "./AdminLayout.scss";
 import {
   DesktopOutlined,
-  LogoutOutlined ,
+  LogoutOutlined,
   PieChartOutlined,
-  TeamOutlined,
+  ShoppingCartOutlined,
+  AppstoreAddOutlined,
+  GoldOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import { Breadcrumb, Layout, Menu, theme } from "antd";
+import ItemsSection from "../../Pages/Admin/AdminItems/ItemsSection";
 import GeneralFooter from "../../MenuComponents/GeneralFooter/GeneralFooter";
-import { Auth, GetSellers } from "../../../api";
-import GeneralTable from "../../GeneralTable/GeneralTable";
+import { Auth } from "../../../api";
+import UserTable from "../../Tables/UserTable/UserTable";
 import { useAuth } from "../../../hooks/useAuth";
 const { Header, Content, Sider } = Layout;
 const authController = new Auth();
 
-function getItem(label, key, icon, children, onClick) {
-    return {
-        key,
-        icon,
-        children,
-        label,
-        onClick,
-    };
+function getItem(label, key, icon, children, onClick, component) {
+  return {
+    key,
+    icon,
+    children,
+    label,
+    onClick,
+    component,
+  };
 }
 
 const AdminLayout = (props) => {
-    const {logout}= useAuth()
-
-
+  const { logout } = useAuth();
+  const [selectedItem, setSelectedItem] = useState(null);
   const [showTable, setShowTable] = useState(false);
+  const [showItemSection, setShowItemSection] = useState(false);
+
   const [token, setToken] = useState(null);
   useEffect(() => {
     const checkUserSession = async () => {
@@ -42,37 +47,45 @@ const AdminLayout = (props) => {
     };
     checkUserSession();
   }, []);
-  const { data, fetchData } = GetSellers(token);
 
-  useEffect(() => {
-    if (token) {
-      fetchData();
-    }
-  }, [token]);
-const handleFilesClick = () => {
-    console.log("di click");
-    logout()
-    window.location.href="/login"
-    // Puedes agregar aquí cualquier lógica adicional que desees ejecutar al hacer clic en "Files"
+  const handleLogoutClick = () => {
+    logout();
+    window.location.href = "/login";
   };
-/*   console.log("sellers ", data); */
 
-const items = [
+  const items = [
     getItem("Option 1", "1", <PieChartOutlined />),
     getItem("Option 2", "2", <DesktopOutlined />),
-    getItem("Users", "3", <UserOutlined />, null, () => setShowTable(true)),
-    getItem("Team", "sub2", <TeamOutlined />, [
-      getItem("Team 1", "6"),
-      getItem("Team 2", "8"),
+    getItem(
+      "Users",
+      "3",
+      <UserOutlined />,
+      null,
+      () => setSelectedItem("3"),
+      <UserTable token={token} />
+    ),
+    getItem("Items", "sub1", <ShoppingCartOutlined />, [
+      getItem("Slide", "6", <AppstoreAddOutlined />),
+      getItem(
+        "All",
+        "8",
+        <GoldOutlined />,
+        null,
+        () => {setSelectedItem("8")
+      console.log("selected item dentro del all",selectedItem);},
+        <ItemsSection token={token} />
+      ),
     ]),
-    getItem("Log Out", "9", <LogoutOutlined />, null, handleFilesClick),
+    getItem("Log Out", "9", <LogoutOutlined />, null, handleLogoutClick),
   ];
+  console.log("items", items);
 
   const { children } = props;
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+  console.log("selected item antes del return",selectedItem);
   return (
     <Layout
       style={{
@@ -96,10 +109,14 @@ const items = [
       <Layout>
         <Header
           style={{
+            justifyContent: "center",
+            alignItems: "center",
             padding: 0,
             background: colorBgContainer,
           }}
-        />
+        >
+          <p style={{ marginLeft: "50%" }}>Admin</p>
+        </Header>
         <Content
           style={{
             margin: "0 16px",
@@ -117,11 +134,14 @@ const items = [
               background: colorBgContainer,
             }}
           >
-            {showTable ? <GeneralTable data={data} token={token} /> : children}
+            {
+            selectedItem != undefined
+              ? items.find((myItem) => myItem.key === selectedItem).component
+              : children}
           </div>
         </Content>
 
-        <GeneralFooter classname="adminFooter"/>
+        <GeneralFooter classname="adminFooter" />
       </Layout>
     </Layout>
   );

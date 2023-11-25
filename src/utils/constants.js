@@ -9,6 +9,9 @@ export const ENV = {
         ADMIN: 'admins',
         SELLERS: 'users',
         USER_ME: "user/me",
+        ITEMS:"items",
+        ITEM:"item",
+
     },
     JWT:{
         ACCESS: "access",

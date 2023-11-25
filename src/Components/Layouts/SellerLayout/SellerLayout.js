@@ -10,7 +10,7 @@ import {
 import { Breadcrumb, Layout, Menu, theme } from "antd";
 import GeneralFooter from "../../MenuComponents/GeneralFooter/GeneralFooter";
 import { Auth, GetSellers } from "../../../api";
-import GeneralTable from "../../GeneralTable/GeneralTable";
+import ItemTable from "../../Tables/ItemsTable/ItemsTable";
 import { useAuth } from "../../../hooks/useAuth";
 const { Header, Content,Footer, Sider } = Layout;
 const authController = new Auth();

@@ -308,15 +308,17 @@ const Signup = () => {
             InputProps={{ style: { color: "white" } }}
           />
         </div>
+
+        <div className="linksSection">
         <div className="Check-Section">
           <Checkbox
             required
             style={{ color: "white" }}
             {...formik.getFieldProps("termsAndConditions")}
-          />
+            />
           <span>
             I have read and accepted the{" "}
-            <Link to="/terms-and-conditions" target="_blank">
+            <Link to="/privacy" target="_blank">
               terms and conditions
             </Link>
             .
@@ -329,6 +331,10 @@ const Signup = () => {
               </Alert>
             )}
         </div>
+          <span className="loginLink"><Link to="/login" target="_blank">
+              Log in
+            </Link></span>
+            </div>
         <Button
           className="SignUpButton"
           variant="contained"

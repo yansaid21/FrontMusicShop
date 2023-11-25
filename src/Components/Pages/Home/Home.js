@@ -10,6 +10,7 @@ const Home = () => {
   return (
     <div className='homeContainer'>
       <Navbar/>
+        <div className='grad'></div>
       <div className='sectionsContainer'>
       <Section1/>
       <Section2/>

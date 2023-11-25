@@ -13,7 +13,9 @@ import yamaha from "./png/Yamaha.png"
 import fenderGuitar from "./png/fenderGuitar.png"
 import soundclock from "./png/soundbrenner-pulse-metrónomo.png"
 import apollo from "./png/apollo.png"
+import shure from "./png/Shure.png"
+import sennheiser from "./png/Sennheiser.png"
 
 
-const images = {akg,apple,behringer,cifuentes,daddario,fender,focal,ibanez,proDj,ua,Uam,yamaha,fenderGuitar,soundclock,apollo}
+const images = {akg,apple,behringer,cifuentes,daddario,fender,focal,ibanez,proDj,ua,Uam,yamaha,fenderGuitar,soundclock,apollo,shure,sennheiser}
 export {images};
