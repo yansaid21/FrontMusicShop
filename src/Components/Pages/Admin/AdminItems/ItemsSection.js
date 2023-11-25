@@ -106,16 +106,43 @@ const updateTableData = (_id, Active) => {
     const updatedData = dataSource.map((item) => (item._id === _id ? { ...item, Active } : item));
     setDataSource(updatedData);
   };
+  const updateShowTableData = (_id, Showcase) => {
+    const updatedData = dataSource.map((item) => (item._id === _id ? { ...item, Showcase } : item));
+    setDataSource(updatedData);
+  };
   
+  const toggleModifyItem =async (data, token, _id)=>{
+    console.log("im here to modify the world");
+    await myItem.modifyItem(data,token,_id)
+  }
+
+  const toggleNewItem = async (data, token )=>{
+    console.log("im here to create a new item");
+    await myItem.NewItem(data,token)
+  }
+
   const toggleItemStatus = async (_id, currentActiveState) => {
     try {
       if (currentActiveState) {
-        console.log("entro al if de true de itemStatus");
         await myItem.deactivateItem(token, _id);
         updateTableData(_id, false);
       } else {
         await myItem.activateItem(token, _id);
         updateTableData(_id, true);
+      }
+    } catch (error) {
+      console.error("Error al cambiar el estado del usuario:", error);
+    }
+  };
+
+  const toggleItemShowCase = async (_id, currentActiveState) => {
+    try {
+      if (currentActiveState) {
+        await myItem.NotShowItem(token, _id);
+        updateShowTableData(_id, false);
+      } else {
+        await myItem.ShowItem(token, _id);
+        updateShowTableData(_id, true);
       }
     } catch (error) {
       console.error("Error al cambiar el estado del usuario:", error);
@@ -162,11 +189,11 @@ const updateTableData = (_id, Active) => {
       render: (_, record) =>
         dataSource.length >= 1 ? (
           record.Showcase === true ? (
-            <a>
+            <a onClick={()=> toggleItemShowCase(record._id,true)}>
               <EyeOutlined />
             </a>
           ) : (
-            <a>
+            <a onClick={()=> toggleItemShowCase(record._id,false)}>
               <EyeInvisibleOutlined />
             </a>
           )
@@ -175,19 +202,23 @@ const updateTableData = (_id, Active) => {
   ];
   const handleAdd = () => {
     const newData = {
-      key: count,
-      price: `Edward King ${count}`,
-      title: "32",
-      text: `London, Park Lane no. ${count}`,
-      categorie: "32",
+      Price: `10`,
+      Title: "new string",
+      Text: `i loose my pick number 20000`,
+      Categorie: "accessory",
     };
-    setDataSource([...dataSource, newData]);
-    setCount(count + 1);
+    toggleNewItem(newData,token)
+    if(toggleNewItem){
+        setDataSource([...dataSource, newData]);
+    }
   };
   const handleSave = (row) => {
     const newData = [...dataSource];
-    const index = newData.findIndex((item) => row.key === item.key);
+    const index = newData.findIndex((item) => row._id === item._id);
     const item = newData[index];
+    console.log("text del item",item.Title);
+    toggleModifyItem(row,token,row._id)
+    console.log("item id",item._id);
     newData.splice(index, 1, {
       ...item,
       ...row,
