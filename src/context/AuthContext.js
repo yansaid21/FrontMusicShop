@@ -64,8 +64,8 @@ const data = {
     login,
     logout,
 };
-console.log("user sacado del data: ",data.user);
-console.log("user después de setearse",user);
+/* console.log("user sacado del data: ",data.user);
+console.log("user después de setearse",user); */
 
 
   return <AuthContext.Provider value={data}>{children}</AuthContext.Provider>;

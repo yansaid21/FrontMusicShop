@@ -24,7 +24,7 @@ export class User {
       //console.log("respuesta despues del getMe", response.data);
       return response.data; // Devuelve solo los datos de la respuesta, ya que axios devuelve un objeto con la propiedad 'data'
     } catch (error) {
-      console.log(error);
+/*       console.log(error); */
       throw error;
     }
   }

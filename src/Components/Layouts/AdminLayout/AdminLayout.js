@@ -71,21 +71,21 @@ const AdminLayout = (props) => {
         "8",
         <GoldOutlined />,
         null,
-        () => {setSelectedItem("8")
-      console.log("selected item dentro del all",selectedItem);},
-        <ItemsSection token={token} />
+        () => setSelectedItem("8"),
+      <ItemsSection token={token} />
       ),
     ]),
     getItem("Log Out", "9", <LogoutOutlined />, null, handleLogoutClick),
   ];
-  console.log("items", items);
+  /* console.log("items", items); */
 
   const { children } = props;
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
-  console.log("selected item antes del return",selectedItem);
+/*   console.log("selected item antes del return",selectedItem);
+  console.log(items.find((myItem) => myItem.key === selectedItem)); */
   return (
     <Layout
       style={{
@@ -135,9 +135,20 @@ const AdminLayout = (props) => {
             }}
           >
             {
-            selectedItem != undefined
-              ? items.find((myItem) => myItem.key === selectedItem).component
-              : children}
+  selectedItem != null &&
+  (
+    items.find((myItem) => myItem.key === selectedItem) ||
+    (
+      items
+        .filter((myItem) => myItem.children)
+        .map((parentItem) =>
+          parentItem.children.find((childItem) => childItem.key === selectedItem)
+        )
+        .find(Boolean)
+    )
+  )?.component || children
+}
+
           </div>
         </Content>
 

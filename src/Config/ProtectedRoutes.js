@@ -39,8 +39,6 @@ export const ProtectedRoutes = ({ children, permission }) => {
     return children ? children : <Outlet />;
   }
 
-  // Puedes agregar un manejo adicional si el usuario no tiene los permisos necesarios.
-  console.error("El usuario no tiene los permisos necesarios");
-  return <Navigate to="unauthorized" />;
+
 };
     
