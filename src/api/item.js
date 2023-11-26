@@ -3,6 +3,7 @@ import { ENV } from "../utils/constants";
 
 const ITEM = ENV.API_ROUTES.ITEM;
 const CONTENT_TYPE_JSON = "application/json";
+const MultiPart = "multipart/form-data";
 
 export class Item {
   baseApi = ENV.BASE_PATH;
@@ -16,7 +17,7 @@ export class Item {
         data, 
         {
           headers: {
-            "Content-Type": CONTENT_TYPE_JSON,
+            "Content-Type": MultiPart,
             Authorization: `Bearer ${accessTokenString}`,
           },
         }
@@ -33,11 +34,45 @@ export class Item {
 
   async modifyItem(data,accessToken,_id) {
     const accessTokenString = accessToken;
-    console.log("entro al modifyItem");
+    for (let pair of data.entries()) {
+        const [key, value] = pair;
+        console.log(key, value);
+    
+        // Si el valor es un objeto File, puedes acceder a sus propiedades
+        if (value instanceof File) {
+          console.log(`${key} - File Object`);
+          console.log(`Name: ${value.name}`);
+          console.log(`Type: ${value.type}`);
+          console.log(`Size: ${value.size} bytes`);
+        }
+      }
     try {
       const response = await axios.patch(
         `${ENV.BASE_PATH}/item/${_id}`,
         data, // Agregar el cuerpo que deseas enviar en el patch
+        {
+          headers: {
+            "Content-Type": MultiPart,
+            Authorization: `Bearer ${accessTokenString}`,
+          },
+        }
+      );
+  
+      console.log("item modificado: ",response.data);
+      return response.data;
+    } catch (error) {
+        console.log("error al modificar el item",error);
+      console.error(error);
+      throw error;
+    }
+  }
+  async modifyPhoto(data,accessToken,_id) {
+    const accessTokenString = accessToken;
+    console.log("entro al modifyPhoto");
+    try {
+      const response = await axios.patch(
+        `${ENV.BASE_PATH}/item/${_id}`,
+        { Photo: data },
         {
           headers: {
             "Content-Type": CONTENT_TYPE_JSON,

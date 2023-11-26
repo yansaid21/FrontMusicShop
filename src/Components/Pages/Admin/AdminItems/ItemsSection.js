@@ -25,14 +25,13 @@ const EditableRow = ({ index, ...props }) => {
   const [form] = Form.useForm();
   return (
 
-    <Form form={form} component={false}>
+    <Form form={form} component={false} >
       <EditableContext.Provider value={form}>
         <tr {...props} />
       </EditableContext.Provider>
     </Form>
   );
 };
-
 
 
 
@@ -117,6 +116,19 @@ const ItemSection = ({ token }) => {
     setDataSource(itemsdata);
   }, [itemsdata]);
  
+  const [file, setFile] = useState(null);
+
+const handleFileChange = (e) => {
+    const fileList = e.target.files;
+    if (fileList.length > 0) {
+        const selectedFile = fileList[0];
+        setFile(selectedFile);
+        console.log("soy selected",selectedFile);
+
+      // Puedes agregar más lógica aquí, como mostrar la vista previa de la imagen si es necesario
+    }
+  };
+  /* const updatePhoto = () */
 const updateTableData = (_id, Active) => {
     const updatedData = dataSource.map((item) => (item._id === _id ? { ...item, Active } : item));
     setDataSource(updatedData);
@@ -173,7 +185,7 @@ const updateTableData = (_id, Active) => {
           <img src={record.Photo} alt={record.Title} style={{ maxWidth: "100px", maxHeight: "100px" }} />
         ):<Button component="label" variant="contained" startIcon={<CloudUploadOutlined />}>
         Upload file
-        <VisuallyHiddenInput type="file" name="itemFile" />
+        <VisuallyHiddenInput type="file" name="itemFile" onChange={handleFileChange}/>
       </Button>):<img src={MusicLogo} alt="default image"/>,
       },
     {
@@ -239,12 +251,25 @@ const updateTableData = (_id, Active) => {
     }
   };
   const handleSave = (row) => {
+    row.Photo=file
     const newData = [...dataSource];
     const index = newData.findIndex((item) => row._id === item._id);
     const item = newData[index];
     console.log("valores dentro de row",row);
-    toggleModifyItem(row,token,row._id)
     console.log("item id",item._id);
+    const formData = new FormData();
+    formData.append('Price', row.Price);
+    formData.append('Title', row.Title);
+    formData.append('Text', row.Text);
+    formData.append('Categorie', row.Categorie);
+    formData.append('Active', row.Active);
+    formData.append('Showcase', row.Showcase);
+    
+    // Agrega el archivo al FormData
+    console.log("photo antes de ingresar: ",file);
+    formData.append('Photo', file);
+    toggleModifyItem(formData,token,item._id)
+    setFile(null)
     newData.splice(index, 1, {
       ...item,
       ...row,
