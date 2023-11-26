@@ -1,14 +1,30 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { Button, Form, Input, Popconfirm, Table } from "antd";
+import { Form, Input, Popconfirm, Table } from "antd";
 import { Item, GetItems } from "../../../../api";
-import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
+import { styled } from '@mui/material/styles';
+import { EyeOutlined, EyeInvisibleOutlined,CloudUploadOutlined } from "@ant-design/icons";
+import MusicLogo from "../../../../assets/svg/music-play-svgrepo-com.svg"
+import { Button } from "@mui/material";
 
+
+const VisuallyHiddenInput = styled('input')({
+    clip: 'rect(0 0 0 0)',
+    clipPath: 'inset(50%)',
+    height: 1,
+    overflow: 'hidden',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    whiteSpace: 'nowrap',
+    width: 1,
+  });
 
 const myItem= new Item();
 const EditableContext = React.createContext(null);
 const EditableRow = ({ index, ...props }) => {
   const [form] = Form.useForm();
   return (
+
     <Form form={form} component={false}>
       <EditableContext.Provider value={form}>
         <tr {...props} />
@@ -16,6 +32,10 @@ const EditableRow = ({ index, ...props }) => {
     </Form>
   );
 };
+
+
+
+
 const EditableCell = ({
   title,
   editable,
@@ -96,12 +116,7 @@ const ItemSection = ({ token }) => {
   useEffect(() => {
     setDataSource(itemsdata);
   }, [itemsdata]);
-
-  const [count, setCount] = useState(2);
-  /* const handleDelete = (key) => {
-    const newData = dataSource.filter((item) => item.key !== key);
-};
-setDataSource(newData); */
+ 
 const updateTableData = (_id, Active) => {
     const updatedData = dataSource.map((item) => (item._id === _id ? { ...item, Active } : item));
     setDataSource(updatedData);
@@ -150,6 +165,17 @@ const updateTableData = (_id, Active) => {
   };
 
   const defaultColumns = [
+    {
+        title: "Photo",
+        dataIndex: "Photo",
+        render: (_, record) => dataSource.length >= 1 ?(
+            record.Photo?(
+          <img src={record.Photo} alt={record.Title} style={{ maxWidth: "100px", maxHeight: "100px" }} />
+        ):<Button component="label" variant="contained" startIcon={<CloudUploadOutlined />}>
+        Upload file
+        <VisuallyHiddenInput type="file" name="itemFile" />
+      </Button>):<img src={MusicLogo} alt="default image"/>,
+      },
     {
       title: "Price",
       dataIndex: "Price",
@@ -216,7 +242,7 @@ const updateTableData = (_id, Active) => {
     const newData = [...dataSource];
     const index = newData.findIndex((item) => row._id === item._id);
     const item = newData[index];
-    console.log("text del item",item.Title);
+    console.log("valores dentro de row",row);
     toggleModifyItem(row,token,row._id)
     console.log("item id",item._id);
     newData.splice(index, 1, {
@@ -258,6 +284,7 @@ const updateTableData = (_id, Active) => {
         Add item
       </Button>
       <Table
+        pagination={{ pageSize: 4 }}
         components={components}
         rowClassName={() => "editable-row"}
         bordered
