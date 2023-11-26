@@ -65,17 +65,16 @@ const AdminLayout = (props) => {
       <UserTable token={token} />
     ),
     getItem("Items", "sub1", <ShoppingCartOutlined />, [
-      getItem("Slide", "6", <AppstoreAddOutlined />),
       getItem(
         "All",
-        "8",
-        <GoldOutlined />,
+        "4",
+        <AppstoreAddOutlined />,
         null,
-        () => setSelectedItem("8"),
+        () => setSelectedItem("4"),
       <ItemsSection token={token} />
       ),
     ]),
-    getItem("Log Out", "9", <LogoutOutlined />, null, handleLogoutClick),
+    getItem("Log Out", "5", <LogoutOutlined />, null, handleLogoutClick),
   ];
   /* console.log("items", items); */
 

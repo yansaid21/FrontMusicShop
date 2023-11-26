@@ -2,41 +2,29 @@ import React, { useState } from "react";
 import "./Slider.scss";
 import { images } from "../../assets";
 
-const Slider = () => {
-  const slidesData = [
-    {
-      _id: 1,
-      image: images.fenderGuitar,
-      price: "$800",
-      title: "Fender guitar Stratocaster",
-      text: 'The Fender Stratocaster, or "Strat," is a legendary electric guitar celebrated for its sleek design and versatile sound since its introduction in 1954.',
-    },
-    {
-      _id: 2,
-      image: images.soundclock,
-      price: "$100",
-      title: "SoundBrenner pulse watch",
-      text: "The Soundbrenner watch: a modern metronome for musicians. Sleek, precise, and innovative, it is the ultimate tool for staying in tempo effortlessly.",
-    },
-    {
-      _id: 3,
-      image: images.apollo,
-      price: "$1200",
-      title: "Apollo Twin x",
-      text: "Apollo Twin X: Your compact powerhouse for professional audio. Streamlined design, cutting-edge tech – essential for top-notch recording and mixing.",
-    },
-  ];
-
+const Slider = ({slidesData}) => {
+  
+  console.log("slidesData en slider",slidesData);
   const [selectedProduct, setSelectedProduct] = useState(slidesData[0]);
   console.log("selected Product", selectedProduct);
 
-  const productUse = (selectedId) => {
-    const newIndex = (selectedId + slidesData.length - 1) % slidesData.length;
-
-    const newProduct = slidesData[newIndex];
-
-    setSelectedProduct(newProduct);
+  const productUse = (selectedId, direction) => {
+    const currentIndex = slidesData.findIndex((product) => product._id === selectedId);
+  
+    if (currentIndex !== -1) {
+      let newIndex;
+      
+      if (direction === "prev") {
+        newIndex = (currentIndex + slidesData.length - 1) % slidesData.length;
+      } else {
+        newIndex = (currentIndex + 1) % slidesData.length;
+      }
+  
+      const newProduct = slidesData[newIndex];
+      setSelectedProduct(newProduct);
+    }
   };
+  
 
   return (
     <div className="blog-slider">
@@ -46,12 +34,12 @@ const Slider = () => {
           className="blog-slider__item swiper-slide"
         >
           <div className="blog-slider__img">
-            <img src={selectedProduct.image} alt="" />
+            <img src={selectedProduct.image? selectedProduct.image:images.Uam} alt="" />
           </div>
           <div className="blog-slider__content">
-            <span className="blog-slider__code">{selectedProduct.price}</span>
-            <div className="blog-slider__title">{selectedProduct.title}</div>
-            <div className="blog-slider__text">{selectedProduct.text}</div>
+            <span className="blog-slider__code">{selectedProduct.Price}</span>
+            <div className="blog-slider__title">{selectedProduct.Title}</div>
+            <div className="blog-slider__text">{selectedProduct.Text}</div>
             <div className="buttons">
               <a href="#" className="blog-slider__button">
                 BUY NOW
@@ -59,7 +47,7 @@ const Slider = () => {
             </div>
             <div className="sliderDots">
               <svg
-                onClick={() => productUse(selectedProduct._id - 1)}
+                onClick={() => productUse(selectedProduct._id, "prev")}
                 fill="white"
                 viewBox="0 0 16 16"
                 height="30px"
@@ -68,7 +56,7 @@ const Slider = () => {
                 <path d="M8 0a8 8 0 100 16A8 8 0 008 0zm3.5 7.5a.5.5 0 010 1H5.707l2.147 2.146a.5.5 0 01-.708.708l-3-3a.5.5 0 010-.708l3-3a.5.5 0 11.708.708L5.707 7.5H11.5z" />
               </svg>
               <svg
-                onClick={() => productUse(selectedProduct._id + 1)}
+                onClick={() => productUse(selectedProduct._id , "next")}
                 fill="white"
                 viewBox="0 0 16 16"
                 height="30px"

@@ -84,14 +84,14 @@ const EditableCell = ({
 };
 const ItemSection = ({ token }) => {
   /* const myItem= new Item(); */
-  const { itemsdata, fetchItemsData } = GetItems(token);
+  const { itemsdata, fetchItemsData } = GetItems();
   const [dataSource, setDataSource] = useState([]);
 
   useEffect(() => {
-    if (token) {
+    
       fetchItemsData();
-    }
-  }, [token]);
+
+  }, []);
 
   useEffect(() => {
     setDataSource(itemsdata);
