@@ -4,6 +4,7 @@ import AdminHome from "../Components/Pages/Admin/AdminHome/AdminHome";
 import Home from "../Components/Pages/Home/Home";
 import Login from "../Components/Pages/LoginPage/Login";
 import NonVerified from "../Components/Pages/NonVerified/NonVerified";
+import PQRSF from "../Components/Pages/PQRSF/PQRSF";
 import PrivacyPolicy from "../Components/Pages/PrivacyPolicyPage/PrivacyPolicyPage";
 import SellerHome from "../Components/Pages/Seller/SellerHome/SellerHome";
 import Signup from "../Components/Pages/SignupPage/Signup";
@@ -24,7 +25,7 @@ const GeneralRoutes = [
     { path: '/signup', component: Signup },
     { path: '/nonVerified', component: NonVerified },
     { path: '/verifyCode', component: VerifyCode },
-    { path: '/pqrsf', component: VerifyCode },
+    { path: '/pqrsf', component: PQRSF },
 
 
 ];
