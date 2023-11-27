@@ -1,13 +1,17 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React from 'react';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { GeneralRoutes, allRoutesProject, AdminRoutes, SellerRoutes } from './Config/Routes';
-import { AuthContext, AuthProvider } from './context';
-import { useAuth } from './hooks/useAuth';
+import { GeneralRoutes, AdminRoutes, SellerRoutes } from './Config/Routes';
+import { AuthProvider } from './context';
 import { ProtectedRoutes } from './Config/ProtectedRoutes';
+
 
 function App() {
   return (
     <AuthProvider>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+
       <BrowserRouter>
         <Routes>
             {GeneralRoutes.map((route, index) => (
@@ -47,6 +51,7 @@ function App() {
             </Route>
             </Routes>
       </BrowserRouter>
+      </LocalizationProvider>
     </AuthProvider>
   );
 };

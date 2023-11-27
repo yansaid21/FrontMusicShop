@@ -3,14 +3,14 @@
     background-image: url('../../../assets/png/cool-background.png');
     align-items: center;
     justify-content: center;
+    display: flex;
 }
 .pqrsfTextContainer{
-    margin-top: 10px;
     margin-bottom: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgba(27, 65, 76, 0.541);
+    background-color: rgba(57, 114, 130, 0.541);
     backdrop-filter: blur(4px);
     height: 500px;
     width: 95%;
