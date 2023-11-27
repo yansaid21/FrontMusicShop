@@ -34,7 +34,7 @@ const Slider = ({slidesData}) => {
           className="blog-slider__item swiper-slide"
         >
           <div className="blog-slider__img">
-            <img src={selectedProduct.image? selectedProduct.image:images.Uam} alt="" />
+            <img src={selectedProduct.Photo? `data:image/png;base64,${selectedProduct.Photo}`:images.Uam} alt="" />
           </div>
           <div className="blog-slider__content">
             <span className="blog-slider__code">{selectedProduct.Price}</span>

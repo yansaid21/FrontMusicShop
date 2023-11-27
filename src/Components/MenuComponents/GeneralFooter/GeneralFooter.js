@@ -1,6 +1,7 @@
 import React from 'react'
 import "./GeneralFooter.scss"
 import musicLogo from "../../../assets/svg/music-play-svgrepo-com.svg";
+import {FacebookOutlined,LinkedinOutlined,InstagramOutlined} from "@ant-design/icons"
 
 const GeneralFooter = () => {
   return (
@@ -39,19 +40,21 @@ const GeneralFooter = () => {
       </div>
       <div className="footer-content pt-5 pb-5">
         <div className="row">
-          <div className="col-xl-4 col-lg-4 mb-50">
+          <div className="innerContaner">
             <div className="footer-widget">
               <div className="footer-logo">
-                <a href="index.html"><img src={musicLogo} className="img-fluid" alt="logo" /></a>
+                <a href="/"><img src={musicLogo} className="img-fluid" alt="logo" /></a>
               </div>
               <div className="footer-text">
-                <p>Una empresa que se compromete a entregarte los productos de primera del mercado, puedes confiar en nosotros y en la calidad de lo que ofrecemos</p>
+                <p>Somos Una empresa que se compromete a entregarte los productos de primera del mercado, puedes confiar en nosotros y en la calidad de lo que ofrecemos</p>
               </div>
               <div className="footer-social-icon">
                 <span>Follow us</span>
-                <a href="#"><i className="fab fa-facebook-f facebook-bg"></i></a>
-                <a href="#"><i className="fab fa-twitter twitter-bg"></i></a>
-                <a href="#"><i className="fab fa-google-plus-g google-bg"></i></a>
+                <div className='iconsInFooter'>
+                <a href="#"><FacebookOutlined /></a>
+                <a href="#"><LinkedinOutlined /></a>
+                <a href="#"><InstagramOutlined /></a>
+                </div>
               </div>
             </div>
           </div>
@@ -61,16 +64,10 @@ const GeneralFooter = () => {
                 <h3>Useful Links</h3>
               </div>
               <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">about</a></li>
-                <li><a href="#">services</a></li>
-                <li><a href="#">portfolio</a></li>
-                <li><a href="#">Contact</a></li>
-                <li><a href="#">About us</a></li>
-                <li><a href="#">Our Services</a></li>
-                <li><a href="#">Expert Team</a></li>
-                <li><a href="#">Contact us</a></li>
-                <li><a href="#">Latest News</a></li>
+                <li><a href="/login">LogIn</a></li>
+                <li><a href="/SignUp">SignUp</a></li>
+                <li><a href="/privacy">Privacy</a></li>
+                <li><a href="/pqrsf">PQRSF</a></li>
               </ul>
             </div>
           </div>

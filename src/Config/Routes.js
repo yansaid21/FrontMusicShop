@@ -24,6 +24,7 @@ const GeneralRoutes = [
     { path: '/signup', component: Signup },
     { path: '/nonVerified', component: NonVerified },
     { path: '/verifyCode', component: VerifyCode },
+    { path: '/pqrsf', component: VerifyCode },
 
 
 ];

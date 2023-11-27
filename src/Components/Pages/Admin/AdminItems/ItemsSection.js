@@ -61,9 +61,10 @@ const EditableCell = ({
   const save = async () => {
     try {
       const values = await form.validateFields();
+      console.log("record id en save",record._id);
       toggleEdit();
       handleSave({
-        ...record,
+          ...record,
         ...values,
       });
     } catch (errInfo) {
@@ -106,16 +107,14 @@ const ItemSection = ({ token }) => {
   const { itemsdata, fetchItemsData } = GetItems();
   const [dataSource, setDataSource] = useState([]);
 
-  useEffect(() => {
-    
+  useEffect(() => {   
       fetchItemsData();
-
-  }, []);
+  }, [dataSource]);
 
   useEffect(() => {
     setDataSource(itemsdata);
   }, [itemsdata]);
- console.log("datasource",dataSource);
+ /* console.log("datasource",dataSource); */
   const [file, setFile] = useState(null);
 
 const handleFileChange = (e) => {
@@ -182,7 +181,11 @@ const updateTableData = (_id, Active) => {
         dataIndex: "Photo",
         render: (_, record) => dataSource.length >= 1 ?(
             record.Photo?(
-          <img src={`data:image/png;base64,${record.Photo}`} alt={record.Title} style={{ maxWidth: "100px", maxHeight: "100px" }} />
+                <Button component="label" variant="contained" style={{backgroundColor: 'transparent'}} startIcon={<img src={`data:image/png;base64,${record.Photo}`} alt={record.Title} style={{ maxWidth: "100px", maxHeight: "100px" }} />}>
+                <VisuallyHiddenInput type="file" name="itemFile" onChange={handleFileChange}/>
+                </Button>
+          
+                
         ):<Button component="label" variant="contained" startIcon={<CloudUploadOutlined />}>
         Upload file
         <VisuallyHiddenInput type="file" name="itemFile" onChange={handleFileChange}/>
@@ -256,6 +259,7 @@ const updateTableData = (_id, Active) => {
     const index = newData.findIndex((item) => row._id === item._id);
     const item = newData[index];
     console.log("valores dentro de row",row);
+    console.log("valores dentro de item",item);
     console.log("item id",item._id);
     const formData = new FormData();
     formData.append('Price', row.Price);
@@ -267,7 +271,9 @@ const updateTableData = (_id, Active) => {
     
     // Agrega el archivo al FormData
     console.log("photo antes de ingresar: ",file);
-    formData.append('Photo', file);
+    if(file){
+        formData.append('Photo', file);
+    }
     toggleModifyItem(formData,token,item._id)
     setFile(null)
     newData.splice(index, 1, {
