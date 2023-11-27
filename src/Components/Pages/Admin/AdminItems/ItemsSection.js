@@ -115,7 +115,7 @@ const ItemSection = ({ token }) => {
   useEffect(() => {
     setDataSource(itemsdata);
   }, [itemsdata]);
- 
+ console.log("datasource",dataSource);
   const [file, setFile] = useState(null);
 
 const handleFileChange = (e) => {
@@ -182,7 +182,7 @@ const updateTableData = (_id, Active) => {
         dataIndex: "Photo",
         render: (_, record) => dataSource.length >= 1 ?(
             record.Photo?(
-          <img src={record.Photo} alt={record.Title} style={{ maxWidth: "100px", maxHeight: "100px" }} />
+          <img src={`data:image/png;base64,${record.Photo}`} alt={record.Title} style={{ maxWidth: "100px", maxHeight: "100px" }} />
         ):<Button component="label" variant="contained" startIcon={<CloudUploadOutlined />}>
         Upload file
         <VisuallyHiddenInput type="file" name="itemFile" onChange={handleFileChange}/>
