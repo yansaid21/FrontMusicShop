@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { Form, Input, Popconfirm, Table } from "antd";
+import { Form, Input, Popconfirm, Table, Select } from "antd";
 import { Item, GetItems } from "../../../../api";
 import { styled } from "@mui/material/styles";
 import {
@@ -9,6 +9,8 @@ import {
 } from "@ant-design/icons";
 import MusicLogo from "../../../../assets/svg/music-play-svgrepo-com.svg";
 import { Button } from "@mui/material";
+
+const { Option } = Select;
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -24,6 +26,7 @@ const VisuallyHiddenInput = styled("input")({
 
 const myItem = new Item();
 const EditableContext = React.createContext(null);
+
 const EditableRow = ({ index, ...props }) => {
   const [form] = Form.useForm();
   return (
@@ -102,11 +105,12 @@ const EditableCell = ({
   }
   return <td {...restProps}>{childNode}</td>;
 };
+
 const ItemSection = ({ token }) => {
-  /* const myItem= new Item(); */
   const { itemsdata, fetchItemsData } = GetItems();
   const [dataSource, setDataSource] = useState([]);
   const [showCaseLimit, setShowCaseLimt] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   useEffect(() => {
     fetchItemsData();
@@ -115,8 +119,14 @@ const ItemSection = ({ token }) => {
   useEffect(() => {
     setDataSource(itemsdata);
   }, [itemsdata]);
-  /* console.log("datasource",dataSource); */
-  const [file, setFile] = useState(null);
+
+  const handleCategoryChange = (category) => {
+    setSelectedCategory(category);
+  };
+
+  const filteredDataSource = selectedCategory
+    ? dataSource.filter((item) => item.Categorie === selectedCategory)
+    : dataSource;
 
   const handleFileChange = async (e, record) => {
     console.log("id del record en fileChange", record._id);
@@ -124,22 +134,19 @@ const ItemSection = ({ token }) => {
     const fileList = e.target.files;
     if (fileList.length > 0) {
       const selectedFile = fileList[0];
-      setFile(selectedFile);
-      console.log("soy selected", selectedFile);
       formData.append("Photo", selectedFile);
 
       await myItem.modifyPhoto(formData, token, record._id);
-
-      // Puedes agregar más lógica aquí, como mostrar la vista previa de la imagen si es necesario
     }
   };
-  /* const updatePhoto = () */
+
   const updateTableData = (_id, Active) => {
     const updatedData = dataSource.map((item) =>
       item._id === _id ? { ...item, Active } : item
     );
     setDataSource(updatedData);
   };
+
   const updateShowTableData = (_id, Showcase) => {
     const updatedData = dataSource.map((item) =>
       item._id === _id ? { ...item, Showcase } : item
@@ -170,30 +177,28 @@ const ItemSection = ({ token }) => {
       console.error("Error al cambiar el estado del usuario:", error);
     }
   };
-  //función que cambia el estado de los iconos y verifica que no haya más de 6 items en el slider
+
   const toggleItemShowCase = async (_id, currentActiveState) => {
     const activeShowcaseItemsCount = dataSource.filter(
       (item) => item.Showcase
     ).length;
-    
+
     try {
       if (currentActiveState) {
         await myItem.NotShowItem(token, _id);
         updateShowTableData(_id, false);
       } else {
-        if(activeShowcaseItemsCount < 6){
+        if (activeShowcaseItemsCount < 6) {
           setShowCaseLimt(false);
           await myItem.ShowItem(token, _id);
           updateShowTableData(_id, true);
-        }else{
+        } else {
           setShowCaseLimt(true);
         }
-        }
-      } catch (error) {
-        console.error("Error al cambiar el estado del usuario:", error);
       }
-    
-    
+    } catch (error) {
+      console.error("Error al cambiar el estado del usuario:", error);
+    }
   };
 
   const defaultColumns = [
@@ -295,26 +300,24 @@ const ItemSection = ({ token }) => {
         ) : null,
     },
   ];
+
   const handleAdd = () => {
     const newData = {
       Price: `10`,
       Title: "new string",
-      Text: `i loose my pick number 20000`,
-      Categorie: "accessory",
+      Text: `i have lost my pick  20000th pick`,
+      Categorie: "Accessory",
     };
     toggleNewItem(newData, token);
     if (toggleNewItem) {
       setDataSource([...dataSource, newData]);
     }
   };
+
   const handleSave = (row) => {
-    row.Photo = file;
     const newData = [...dataSource];
     const index = newData.findIndex((item) => row._id === item._id);
     const item = newData[index];
-    console.log("valores dentro de row", row);
-    console.log("valores dentro de item", item);
-    console.log("item id", item._id);
     const formData = new FormData();
     formData.append("Price", row.Price);
     formData.append("Title", row.Title);
@@ -322,7 +325,6 @@ const ItemSection = ({ token }) => {
     formData.append("Categorie", row.Categorie);
     formData.append("Active", row.Active);
     formData.append("Showcase", row.Showcase);
-    // Agrega el archivo al FormData
     toggleModifyItem(formData, token, item._id);
     newData.splice(index, 1, {
       ...item,
@@ -330,12 +332,14 @@ const ItemSection = ({ token }) => {
     });
     setDataSource(newData);
   };
+
   const components = {
     body: {
       row: EditableRow,
       cell: EditableCell,
     },
   };
+
   const columns = defaultColumns.map((col) => {
     if (!col.editable) {
       return col;
@@ -351,8 +355,22 @@ const ItemSection = ({ token }) => {
       }),
     };
   });
+
   return (
     <div>
+      <div style={{ marginBottom: 16 }}>
+        <span style={{ marginRight: 8 }}>Filter by Category:</span>
+        <Select
+          style={{ width: 150 }}
+          value={selectedCategory}
+          onChange={handleCategoryChange}
+        >
+          <Option value={null}>All</Option>
+          <Option value="Instrument">Instruments</Option>
+          <Option value="Accessory">Accessories</Option>
+        </Select>
+      </div>
+
       <Button
         onClick={handleAdd}
         type="primary"
@@ -367,11 +385,12 @@ const ItemSection = ({ token }) => {
         components={components}
         rowClassName={() => "editable-row"}
         bordered
-        dataSource={dataSource}
+        dataSource={filteredDataSource}
         columns={columns}
         rowKey={(record) => record._id}
       />
     </div>
   );
 };
+
 export default ItemSection;
