@@ -1,39 +1,39 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Form, Input, Popconfirm, Table } from "antd";
 import { Item, GetItems } from "../../../../api";
-import { styled } from '@mui/material/styles';
-import { EyeOutlined, EyeInvisibleOutlined,CloudUploadOutlined } from "@ant-design/icons";
-import MusicLogo from "../../../../assets/svg/music-play-svgrepo-com.svg"
+import { styled } from "@mui/material/styles";
+import {
+  EyeOutlined,
+  EyeInvisibleOutlined,
+  CloudUploadOutlined,
+} from "@ant-design/icons";
+import MusicLogo from "../../../../assets/svg/music-play-svgrepo-com.svg";
 import { Button } from "@mui/material";
 
+const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
+  height: 1,
+  overflow: "hidden",
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  whiteSpace: "nowrap",
+  width: 1,
+});
 
-const VisuallyHiddenInput = styled('input')({
-    clip: 'rect(0 0 0 0)',
-    clipPath: 'inset(50%)',
-    height: 1,
-    overflow: 'hidden',
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    whiteSpace: 'nowrap',
-    width: 1,
-  });
-
-const myItem= new Item();
+const myItem = new Item();
 const EditableContext = React.createContext(null);
 const EditableRow = ({ index, ...props }) => {
   const [form] = Form.useForm();
   return (
-
-    <Form form={form} component={false} >
+    <Form form={form} component={false}>
       <EditableContext.Provider value={form}>
         <tr {...props} />
       </EditableContext.Provider>
     </Form>
   );
 };
-
-
 
 const EditableCell = ({
   title,
@@ -61,10 +61,10 @@ const EditableCell = ({
   const save = async () => {
     try {
       const values = await form.validateFields();
-      console.log("record id en save",record._id);
+      console.log("record id en save", record._id);
       toggleEdit();
       handleSave({
-          ...record,
+        ...record,
         ...values,
       });
     } catch (errInfo) {
@@ -106,46 +106,56 @@ const ItemSection = ({ token }) => {
   /* const myItem= new Item(); */
   const { itemsdata, fetchItemsData } = GetItems();
   const [dataSource, setDataSource] = useState([]);
+  const [showCaseLimit, setShowCaseLimt] = useState(false);
 
-  useEffect(() => {   
-      fetchItemsData();
+  useEffect(() => {
+    fetchItemsData();
   }, [dataSource]);
 
   useEffect(() => {
     setDataSource(itemsdata);
   }, [itemsdata]);
- /* console.log("datasource",dataSource); */
+  /* console.log("datasource",dataSource); */
   const [file, setFile] = useState(null);
 
-const handleFileChange = (e) => {
+  const handleFileChange = async (e, record) => {
+    console.log("id del record en fileChange", record._id);
+    const formData = new FormData();
     const fileList = e.target.files;
     if (fileList.length > 0) {
-        const selectedFile = fileList[0];
-        setFile(selectedFile);
-        console.log("soy selected",selectedFile);
+      const selectedFile = fileList[0];
+      setFile(selectedFile);
+      console.log("soy selected", selectedFile);
+      formData.append("Photo", selectedFile);
+
+      await myItem.modifyPhoto(formData, token, record._id);
 
       // Puedes agregar más lógica aquí, como mostrar la vista previa de la imagen si es necesario
     }
   };
   /* const updatePhoto = () */
-const updateTableData = (_id, Active) => {
-    const updatedData = dataSource.map((item) => (item._id === _id ? { ...item, Active } : item));
+  const updateTableData = (_id, Active) => {
+    const updatedData = dataSource.map((item) =>
+      item._id === _id ? { ...item, Active } : item
+    );
     setDataSource(updatedData);
   };
   const updateShowTableData = (_id, Showcase) => {
-    const updatedData = dataSource.map((item) => (item._id === _id ? { ...item, Showcase } : item));
+    const updatedData = dataSource.map((item) =>
+      item._id === _id ? { ...item, Showcase } : item
+    );
     setDataSource(updatedData);
   };
-  
-  const toggleModifyItem =async (data, token, _id)=>{
-    console.log("im here to modify the world");
-    await myItem.modifyItem(data,token,_id)
-  }
 
-  const toggleNewItem = async (data, token )=>{
+  const toggleModifyItem = async (data, token, _id) => {
+    console.log("im here to modify the world");
+    await myItem.modifyItem(data, token, _id);
+  };
+
+  const toggleNewItem = async (data, token) => {
     console.log("im here to create a new item");
-    await myItem.NewItem(data,token)
-  }
+    await myItem.NewItem(data, token);
+  };
 
   const toggleItemStatus = async (_id, currentActiveState) => {
     try {
@@ -160,37 +170,75 @@ const updateTableData = (_id, Active) => {
       console.error("Error al cambiar el estado del usuario:", error);
     }
   };
-
+  //función que cambia el estado de los iconos y verifica que no haya más de 6 items en el slider
   const toggleItemShowCase = async (_id, currentActiveState) => {
+    const activeShowcaseItemsCount = dataSource.filter(
+      (item) => item.Showcase
+    ).length;
+    
     try {
       if (currentActiveState) {
         await myItem.NotShowItem(token, _id);
         updateShowTableData(_id, false);
       } else {
-        await myItem.ShowItem(token, _id);
-        updateShowTableData(_id, true);
+        if(activeShowcaseItemsCount < 6){
+          setShowCaseLimt(false);
+          await myItem.ShowItem(token, _id);
+          updateShowTableData(_id, true);
+        }else{
+          setShowCaseLimt(true);
+        }
+        }
+      } catch (error) {
+        console.error("Error al cambiar el estado del usuario:", error);
       }
-    } catch (error) {
-      console.error("Error al cambiar el estado del usuario:", error);
-    }
+    
+    
   };
 
   const defaultColumns = [
     {
-        title: "Photo",
-        dataIndex: "Photo",
-        render: (_, record) => dataSource.length >= 1 ?(
-            record.Photo?(
-                <Button component="label" variant="contained" style={{backgroundColor: 'transparent'}} startIcon={<img src={`data:image/png;base64,${record.Photo}`} alt={record.Title} style={{ maxWidth: "100px", maxHeight: "100px" }} />}>
-                <VisuallyHiddenInput type="file" name="itemFile" onChange={handleFileChange}/>
-                </Button>
-          
-                
-        ):<Button component="label" variant="contained" startIcon={<CloudUploadOutlined />}>
-        Upload file
-        <VisuallyHiddenInput type="file" name="itemFile" onChange={handleFileChange}/>
-      </Button>):<img src={MusicLogo} alt="default image"/>,
-      },
+      title: "Photo",
+      dataIndex: "Photo",
+      render: (_, record) =>
+        dataSource.length >= 1 ? (
+          record.Photo ? (
+            <Button
+              component="label"
+              variant="contained"
+              style={{ backgroundColor: "transparent" }}
+              startIcon={
+                <img
+                  src={`data:image/png;base64,${record.Photo}`}
+                  alt={record.Title}
+                  style={{ maxWidth: "100px", maxHeight: "100px" }}
+                />
+              }
+            >
+              <VisuallyHiddenInput
+                type="file"
+                name="itemFile"
+                onChange={(e) => handleFileChange(e, record)}
+              />
+            </Button>
+          ) : (
+            <Button
+              component="label"
+              variant="contained"
+              startIcon={<CloudUploadOutlined />}
+            >
+              Upload file
+              <VisuallyHiddenInput
+                type="file"
+                name="itemFile"
+                onChange={(e) => handleFileChange(e, record)}
+              />
+            </Button>
+          )
+        ) : (
+          <img src={MusicLogo} alt="default image" />
+        ),
+    },
     {
       title: "Price",
       dataIndex: "Price",
@@ -218,9 +266,9 @@ const updateTableData = (_id, Active) => {
       render: (_, record) =>
         dataSource.length >= 1 ? (
           record.Active === true ? (
-            <a onClick={()=>toggleItemStatus(record._id,true)}>True</a>
+            <a onClick={() => toggleItemStatus(record._id, true)}>True</a>
           ) : (
-            <a onClick={()=>toggleItemStatus(record._id,false)}>False</a>
+            <a onClick={() => toggleItemStatus(record._id, false)}>False</a>
           )
         ) : null,
     },
@@ -230,11 +278,17 @@ const updateTableData = (_id, Active) => {
       render: (_, record) =>
         dataSource.length >= 1 ? (
           record.Showcase === true ? (
-            <a onClick={()=> toggleItemShowCase(record._id,true)}>
+            <a onClick={() => toggleItemShowCase(record._id, true)}>
               <EyeOutlined />
             </a>
+          ) : showCaseLimit ? (
+            <Popconfirm title="there is 6 items in the slider">
+              <a onClick={() => toggleItemShowCase(record._id, false)}>
+                <EyeInvisibleOutlined />
+              </a>
+            </Popconfirm>
           ) : (
-            <a onClick={()=> toggleItemShowCase(record._id,false)}>
+            <a onClick={() => toggleItemShowCase(record._id, false)}>
               <EyeInvisibleOutlined />
             </a>
           )
@@ -248,34 +302,28 @@ const updateTableData = (_id, Active) => {
       Text: `i loose my pick number 20000`,
       Categorie: "accessory",
     };
-    toggleNewItem(newData,token)
-    if(toggleNewItem){
-        setDataSource([...dataSource, newData]);
+    toggleNewItem(newData, token);
+    if (toggleNewItem) {
+      setDataSource([...dataSource, newData]);
     }
   };
   const handleSave = (row) => {
-    row.Photo=file
+    row.Photo = file;
     const newData = [...dataSource];
     const index = newData.findIndex((item) => row._id === item._id);
     const item = newData[index];
-    console.log("valores dentro de row",row);
-    console.log("valores dentro de item",item);
-    console.log("item id",item._id);
+    console.log("valores dentro de row", row);
+    console.log("valores dentro de item", item);
+    console.log("item id", item._id);
     const formData = new FormData();
-    formData.append('Price', row.Price);
-    formData.append('Title', row.Title);
-    formData.append('Text', row.Text);
-    formData.append('Categorie', row.Categorie);
-    formData.append('Active', row.Active);
-    formData.append('Showcase', row.Showcase);
-    
+    formData.append("Price", row.Price);
+    formData.append("Title", row.Title);
+    formData.append("Text", row.Text);
+    formData.append("Categorie", row.Categorie);
+    formData.append("Active", row.Active);
+    formData.append("Showcase", row.Showcase);
     // Agrega el archivo al FormData
-    console.log("photo antes de ingresar: ",file);
-    if(file){
-        formData.append('Photo', file);
-    }
-    toggleModifyItem(formData,token,item._id)
-    setFile(null)
+    toggleModifyItem(formData, token, item._id);
     newData.splice(index, 1, {
       ...item,
       ...row,

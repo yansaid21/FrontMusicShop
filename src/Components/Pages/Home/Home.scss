@@ -1,4 +1,5 @@
 .homeContainer{
+
     background-image: url('../../../assets/png/cool-background.png');
     .grad{
         display: block;
@@ -14,7 +15,6 @@
     z-index: -1;
     & .sectionsContainer{
         position: relative;
-        z-index: 10;
         display: flex;
         justify-content: center;
         align-items: center;

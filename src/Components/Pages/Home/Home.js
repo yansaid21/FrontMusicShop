@@ -32,20 +32,26 @@ const Home = () => {
     setDataSource(itemsdata);
   }, [itemsdata]);
   console.log("datasource en home",dataSource);
+  const filterData = dataSource.filter(item => item.Active ===true)
+  console.log("filterData: ", filterData);
   return (
     <>
         {loading && dataSource.length===0? (
           <Loader/>
           ) : (
-            <div className='homeContainer'>
+            <div className='bigContainer'>
             <Navbar/>
+            <div className='homeContainer'>
+              <div className='navHome'>
+              </div>
             <div className='sectionsContainer'>
             <Section1 slidesData={dataSource}/>
-            <Section2/>
+            <Section2 allItems={filterData}/>
             <Section3/>
             </div>
             <GeneralFooter/>
           </div>
+            </div>
         )}
         </>
   );

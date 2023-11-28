@@ -52,7 +52,7 @@ export class Item {
         data, // Agregar el cuerpo que deseas enviar en el patch
         {
           headers: {
-            "Content-Type": MultiPart,
+            "Content-Type": CONTENT_TYPE_JSON,
             Authorization: `Bearer ${accessTokenString}`,
           },
         }
@@ -72,10 +72,10 @@ export class Item {
     try {
       const response = await axios.patch(
         `${ENV.BASE_PATH}/item/${_id}`,
-        { Photo: data },
+         data ,
         {
           headers: {
-            "Content-Type": CONTENT_TYPE_JSON,
+            "Content-Type": MultiPart,
             Authorization: `Bearer ${accessTokenString}`,
           },
         }
