@@ -33,9 +33,6 @@ export class Auth {
     login = async (data) => {
         const url = `${BASE_PATH}/${API_ROUTES.LOGIN}`;
         console.log(url);
-        const noActive= {
-            active:false
-        }
         const params = {
             method: "POST",
             body: JSON.stringify(data),
@@ -54,7 +51,6 @@ export class Auth {
             return result;
         } catch (error) {
             console.error(error);
-            return noActive
         }
     }
 

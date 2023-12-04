@@ -8,6 +8,7 @@ import PQRSF from "../Components/Pages/PQRSF/PQRSF";
 import PrivacyPolicy from "../Components/Pages/PrivacyPolicyPage/PrivacyPolicyPage";
 import SellerHome from "../Components/Pages/Seller/SellerHome/SellerHome";
 import Signup from "../Components/Pages/SignupPage/Signup";
+import THANKPQRSF from "../Components/Pages/THANKPQRSF/THANKPQRSF";
 import VerifyCode from "../Components/Pages/VerifyCode/VerifyCode";
 
 const AdminRoutes = [
@@ -23,9 +24,10 @@ const GeneralRoutes = [
     { path: '/login', component: Login },
     { path: '/privacy', component: PrivacyPolicy },
     { path: '/signup', component: Signup },
-    { path: '/nonVerified', component: NonVerified },
+    { path: '/verified', component: NonVerified },
     { path: '/verifyCode', component: VerifyCode },
     { path: '/pqrsf', component: PQRSF },
+    { path: '/tpqrsf', component: THANKPQRSF },
 
 
 ];

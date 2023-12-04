@@ -368,6 +368,7 @@ const ItemSection = ({ token }) => {
           <Option value={null}>All</Option>
           <Option value="Instrument">Instruments</Option>
           <Option value="Accessory">Accessories</Option>
+          <Option value="Clean">Clean</Option>
         </Select>
       </div>
 

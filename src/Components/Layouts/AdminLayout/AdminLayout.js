@@ -12,11 +12,14 @@ import {
 import { Breadcrumb, Layout, Menu, theme } from "antd";
 import ItemsSection from "../../Pages/Admin/AdminItems/ItemsSection";
 import GeneralFooter from "../../MenuComponents/GeneralFooter/GeneralFooter";
-import { Auth } from "../../../api";
+import { Auth, User } from "../../../api";
 import UserTable from "../../Tables/UserTable/UserTable";
 import { useAuth } from "../../../hooks/useAuth";
+import ExtraNav from "../../MenuComponents/Navbar/ExtraNav/ExtraNav";
+import Navbar from "../../MenuComponents/Navbar/Navbar";
 const { Header, Content, Sider } = Layout;
 const authController = new Auth();
+const userController = new User();
 
 function getItem(label, key, icon, children, onClick, component) {
   return {
@@ -30,6 +33,7 @@ function getItem(label, key, icon, children, onClick, component) {
 }
 
 const AdminLayout = (props) => {
+  const [user, setUser] = useState(null);
   const { logout } = useAuth();
   const [selectedItem, setSelectedItem] = useState(null);
   const [showTable, setShowTable] = useState(false);
@@ -40,13 +44,16 @@ const AdminLayout = (props) => {
     const checkUserSession = async () => {
       try {
         const accessToken = await authController.getAccessToken();
+        const response = await userController.getMeLater(accessToken);
+        setUser(response);
         setToken(accessToken);
       } catch (error) {
         console.error("Error al obtener la sesión del usuario", error);
       }
     };
+
     checkUserSession();
-  }, []);
+  }, []); 
 
   const handleLogoutClick = () => {
     logout();
@@ -54,8 +61,6 @@ const AdminLayout = (props) => {
   };
 
   const items = [
-    getItem("Option 1", "1", <PieChartOutlined />),
-    getItem("Option 2", "2", <DesktopOutlined />),
     getItem(
       "Users",
       "3",
@@ -114,7 +119,8 @@ const AdminLayout = (props) => {
             background: colorBgContainer,
           }}
         >
-          <p style={{ marginLeft: "50%" }}>Admin</p>
+          {/* <p style={{ marginLeft: "50%" }}>Admin</p> */}
+          <Navbar user={user}/>
         </Header>
         <Content
           style={{

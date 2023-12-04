@@ -1,9 +1,7 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import MusicLogo from "../../../assets/svg/music-play-svgrepo-com.svg"
 import "./Navbar.scss"
-import { AuthContext } from '../../../context';
-const Navbar = () => {
-  const { user } = useContext(AuthContext);
+const Navbar = ({user}) => {
   return (
     <div className='navbarContainer'>
         <div className='navIcon'>
@@ -12,12 +10,20 @@ const Navbar = () => {
             </a>
         </div>
         <div className='navSection'>
-            <a href='#'>products</a>
+{/*             <a href='#'>products</a>
             <a href='#'>Description</a>
-            <a href='#'>Musical Partners</a>
+            <a href='#'>Musical Partners</a> */}
         </div>
         {user ? (
-          <p>{user.firstname}</p>
+          user.role === "admin"?(
+          <div className='loginButton'>
+            <a href='/admin/home'>{user.firstname}</a>
+            </div>  
+          ):(
+            <div className='loginButton'>
+            <a href='/seller/home'>{user.firstname}</a>
+            </div>
+          )
         ):
         <div className='loginButton'>
             <a href='login'>Log In</a>

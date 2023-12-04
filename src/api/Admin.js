@@ -8,8 +8,9 @@ export const GetAdmin = () => {
   useEffect(() => {
     fetchData();
   }, []);
-
+  
   const fetchData = async () => {
+    
     try {
       const url = `${BASE_PATH}/${API_ROUTES.ADMIN}/me`;
       console.log(url);

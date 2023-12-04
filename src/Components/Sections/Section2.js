@@ -22,12 +22,12 @@ const Section2 = ({allItems}) => {
           <img
             srcSet={`data:image/jpg;base64,${item.Photo}`}
             src={`data:image/jpg;base64,${item.Photo}`}
-            alt={item.title}
+            alt={item.Title}
             loading="lazy"
           />
           <ImageListItemBar
-            title={item.title}
-            subtitle={item.author}
+          sx={{height:'70px', fontSize:'60'}}
+            title={item.Title}
             actionIcon={
               <IconButton
                 sx={{ color: 'rgba(255, 255, 255, 0.54)' }}

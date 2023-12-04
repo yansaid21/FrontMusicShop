@@ -24,10 +24,9 @@ export const ProtectedRoutes = ({ children, permission }) => {
     };
 
     checkUserSession();
-  }, []); // El segundo argumento [] asegura que el efecto se ejecute solo una vez, después del montaje.
+  }, []); 
 
   if (loading) {
-    // Mientras se está cargando la sesión, podrías mostrar un indicador de carga.
     return <Loader/>;
   }
 
@@ -37,6 +36,9 @@ export const ProtectedRoutes = ({ children, permission }) => {
 
   if (user.role === permission) {
     return children ? children : <Outlet />;
+    if(user.active===false){
+      <Navigate to="/verificationCode"/>
+    }
   }
 
 

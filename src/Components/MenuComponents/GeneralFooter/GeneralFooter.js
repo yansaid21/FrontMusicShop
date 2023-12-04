@@ -89,7 +89,6 @@ const GeneralFooter = () => {
               <ul>
                 <li><a href="/">Home</a></li>
                 <li><a href="privacy">Privacy</a></li>
-                <li><a href="#">Contact</a></li>
               </ul>
             </div>
           </div>

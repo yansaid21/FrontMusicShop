@@ -9,11 +9,13 @@ import {
 } from "@ant-design/icons";
 import { Breadcrumb, Layout, Menu, theme } from "antd";
 import GeneralFooter from "../../MenuComponents/GeneralFooter/GeneralFooter";
-import { Auth, GetSellers } from "../../../api";
+import { Auth, GetSellers, User } from "../../../api";
 import ItemTable from "../../Tables/ItemsTable/ItemsTable";
 import { useAuth } from "../../../hooks/useAuth";
+import Navbar from "../../MenuComponents/Navbar/Navbar";
 const { Header, Content,Footer, Sider } = Layout;
 const authController = new Auth();
+const userController = new User();
 
 function getItem(label, key, icon, children, onClick) {
     return {
@@ -26,19 +28,24 @@ function getItem(label, key, icon, children, onClick) {
 }
 
 const SellerLayout = (props) => {
+  const [user, setUser] = useState(null);
+
     const {logout}= useAuth()
   const [token, setToken] = useState(null);
   useEffect(() => {
     const checkUserSession = async () => {
       try {
         const accessToken = await authController.getAccessToken();
+        const response = await userController.getMeLater(accessToken);
+        setUser(response);
         setToken(accessToken);
       } catch (error) {
         console.error("Error al obtener la sesión del usuario", error);
       }
     };
+
     checkUserSession();
-  }, []);
+  }, []); 
 
 const handleLogOutClick = () => {
     console.log("di click");
@@ -87,7 +94,9 @@ const items = [
             padding: 0,
             background: colorBgContainer,
           }}
-        />
+          >
+          <Navbar user={user}/>
+        </Header>
         <Content
           style={{
             margin: "0 16px",

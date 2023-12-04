@@ -1,6 +1,6 @@
 import React from 'react'
 
-const AdminHome = () => {
+const AdminHome = ({user}) => {
   return (
     <div>
       Bienvenido admin

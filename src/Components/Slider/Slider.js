@@ -4,9 +4,9 @@ import { images } from "../../assets";
 
 const Slider = ({slidesData}) => {
   
-  console.log("slidesData en slider",slidesData);
+/*   console.log("slidesData en slider",slidesData); */
   const [selectedProduct, setSelectedProduct] = useState(slidesData[0]);
-  console.log("selected Product", selectedProduct);
+/*   console.log("selected Product", selectedProduct); */
 
   const productUse = (selectedId, direction) => {
     const currentIndex = slidesData.findIndex((product) => product._id === selectedId);
@@ -37,14 +37,14 @@ const Slider = ({slidesData}) => {
             <img src={selectedProduct.Photo? `data:image/png;base64,${selectedProduct.Photo}`:images.Uam} alt="" />
           </div>
           <div className="blog-slider__content">
-            <span className="blog-slider__code">{selectedProduct.Price}</span>
+            <span className="blog-slider__code">$ {selectedProduct.Price}</span>
             <div className="blog-slider__title">{selectedProduct.Title}</div>
             <div className="blog-slider__text">{selectedProduct.Text}</div>
-            <div className="buttons">
+{/*             <div className="buttons">
               <a href="#" className="blog-slider__button">
                 BUY NOW
               </a>
-            </div>
+            </div> */}
             <div className="sliderDots">
               <svg
                 onClick={() => productUse(selectedProduct._id, "prev")}
